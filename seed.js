@@ -1,4 +1,4 @@
-// seed.js
+// note these are sample data written to make the credentials 
 require('dotenv').config();
 const mongoose = require('mongoose');
 const connectDB = require('./config/db');
@@ -15,7 +15,7 @@ async function seed() {
     const teacher = new User({
       name: 'Ms. Alice Teacher',
       email: 'teacher1@example.com',
-      password: 'Password123', // will be hashed by pre-save
+      password: 'Password123',
       role: 'teacher',
     });
 
@@ -36,7 +36,7 @@ async function seed() {
       dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // one week from now
       createdBy: teacher._id,
     });
-
+//to check the response
     console.log('Seed completed');
     console.log('Teacher:', { email: teacher.email, password: 'Password123' });
     console.log('Student:', { email: student.email, password: 'Password123' });

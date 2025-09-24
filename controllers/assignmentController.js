@@ -27,9 +27,8 @@ const getAssignments = asyncHandler(async (req, res) => {
   if (req.user.role === 'teacher') {
     query.createdBy = req.user._id;
     if (status) query.status = status.toUpperCase();
-  } else {
-    // student: only published
-    query.status = 'PUBLISHED';
+  } else {   
+    query.status = 'PUBLISHED'; // student: only published
   }
 
   const total = await Assignment.countDocuments(query);
@@ -39,7 +38,7 @@ const getAssignments = asyncHandler(async (req, res) => {
     .limit(Number(limit))
     .lean();
 
-  // option: include basic stats for teacher
+  // include basic stats for teacher
   if (req.user.role === 'teacher') {
     const withStats = await Promise.all(assignments.map(async (a) => {
       const submissionsCount = await Submission.countDocuments({ assignment: a._id });
@@ -81,11 +80,19 @@ const updateAssignment = asyncHandler(async (req, res) => {
   // actions: publish, complete
   if (action === 'publish') {
     if (assignment.status !== 'DRAFT') {
+          //   return res.status(404).json({
+    //     success: false,
+    //     message: "publishing Assignment not found",
+    //   });
       res.status(400);
       throw new Error('Only draft assignments can be published');
     }
     const now = new Date();
     if (new Date(assignment.dueDate) < now) {
+          //   return res.status(404).json({
+    //     success: false,
+    //     message: "publishing Assignment not found",
+    //   });
       res.status(400);
       throw new Error('Cannot publish assignment with due date in the past');
     }
@@ -96,6 +103,10 @@ const updateAssignment = asyncHandler(async (req, res) => {
 
   if (action === 'complete') {
     if (assignment.status !== 'PUBLISHED') {
+          //   return res.status(404).json({
+    //     success: false,
+    //     message: "completing Assignment not found",
+    //   });
       res.status(400);
       throw new Error('Only published assignments can be marked completed');
     }
@@ -121,14 +132,26 @@ const updateAssignment = asyncHandler(async (req, res) => {
 const deleteAssignment = asyncHandler(async (req, res) => {
   const assignment = await Assignment.findById(req.params.id);
   if (!assignment) {
+        //   return res.status(404).json({
+    //     success: false,
+    //     message: "deleteing Assignment not found",
+    //   });
     res.status(404);
     throw new Error('Assignment not found');
   }
   if (!assignment.createdBy.equals(req.user._id)) {
+        //   return res.status(404).json({
+    //     success: false,
+    //     message: "deleting Assignment not found",
+    //   });
     res.status(403);
     throw new Error('Not authorized to delete this assignment');
   }
   if (assignment.status !== 'DRAFT') {
+        //   return res.status(404).json({
+    //     success: false,
+    //     message: "deleting Assignment not found",
+    //   });
     res.status(400);
     throw new Error('Only Draft assignments can be deleted');
   }

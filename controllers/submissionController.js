@@ -1,4 +1,3 @@
-// controllers/submissionController.js
 const asyncHandler = require('express-async-handler');
 const Assignment = require('../models/Assignment');
 const Submission = require('../models/Submission');
@@ -63,7 +62,7 @@ const markReviewed = asyncHandler(async (req, res) => {
     throw new Error('Submission not found');
   }
 
-  // only the assignment's creator (teacher) can mark review
+  // only the teacher can mark review (created role only can make changes in assignment)
   const assignment = await Assignment.findById(submission.assignment._id);
   if (!assignment.createdBy.equals(req.user._id)) {
     res.status(403);

@@ -12,22 +12,12 @@ const {
 
 const { protect, authorizeRoles } = require('../middlewares/authMiddleware');
 
-// create - teacher only
-router.post('/', protect, authorizeRoles('teacher'), createAssignment);
 
-// list - both roles (logic inside controller)
-router.get('/', protect, getAssignments);
-
-// get by id
-router.get('/:id', protect, getAssignmentById);
-
-// update (including publish / complete)
-router.patch('/:id', protect, authorizeRoles('teacher'), updateAssignment);
-
-// delete (draft only)
-router.delete('/:id', protect, authorizeRoles('teacher'), deleteAssignment);
-
-// get submissions for an assignment (teacher only)
-router.get('/:id/submissions', protect, authorizeRoles('teacher'), getSubmissionsForAssignment);
+router.post('/', protect, authorizeRoles('teacher'), createAssignment);// create - teacher only
+router.get('/', protect, getAssignments);// list - both roles (logic inside controller)
+router.get('/:id', protect, getAssignmentById);// get by id
+router.patch('/:id', protect, authorizeRoles('teacher'), updateAssignment);// update (including publish / complete)
+router.delete('/:id', protect, authorizeRoles('teacher'), deleteAssignment);// delete (draft only)
+router.get('/:id/submissions', protect, authorizeRoles('teacher'), getSubmissionsForAssignment);// get submissions for an assignment (teacher only)
 
 module.exports = router;

@@ -1,5 +1,4 @@
-// config/db.js
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); // Importing mongoose for MongoDB connection
 
 const connectDB = async () => {
   const uri = process.env.MONGO_URI;
