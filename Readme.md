@@ -123,6 +123,8 @@ Developed Node.js/Express.js backend API for an educational assignment managemen
 
    npm run seed 
 
+   **note if we doesnot runthese 'npm run seed' the credential may not be created and user may not be able to login**
+
    (command to create this creates sample teacher and student accounts:
    Teacher: `teacher1@example.com` / `Password123`
     Student: `student1@example.com` / `Password123`)
